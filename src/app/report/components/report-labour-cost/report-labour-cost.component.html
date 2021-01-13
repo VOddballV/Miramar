@@ -1,0 +1,64 @@
+
+<h1>Labour cost report</h1>
+
+<table *ngIf="report$ | async">
+  <thead>
+    <tr>      
+      <th 
+        *ngFor="let column of columns; let i = index" 
+        (click)="sort(i)" 
+        [innerHtml]="column.description" 
+        [ngClass]="getColumnClasses(column)"
+      >
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <ng-container *ngIf="!columns[0].current; else sortedByName">
+      <tr *ngFor="let record of records">
+        <ng-container 
+          *ngFor="let cell of columns" 
+          [ngTemplateOutlet]="rowTemplate"
+          [ngTemplateOutletContext]="{ record: record, cell: cell }"
+        >
+        </ng-container>
+      </tr>
+    </ng-container>
+
+    <ng-template #sortedByName>
+      <tr *ngFor="let record of reportData.directContractors">
+        <ng-container 
+          *ngFor="let cell of columns" 
+          [ngTemplateOutlet]="rowTemplate"
+          [ngTemplateOutletContext]="{ record: record, cell: cell }"
+        >
+        </ng-container>
+      </tr>
+  
+      <tr class="spacer"></tr>
+  
+      <tr *ngFor="let record of reportData.providers">
+        <ng-container 
+          *ngFor="let cell of columns" 
+          [ngTemplateOutlet]="rowTemplate"
+          [ngTemplateOutletContext]="{ record: record, cell: cell }"
+        >
+        </ng-container>        
+      </tr>
+    </ng-template>
+
+    <tr class="spacer"></tr>
+
+    <tr>
+      <ng-container 
+        *ngFor="let cell of columns" 
+        [ngTemplateOutlet]="rowTemplate"
+        [ngTemplateOutletContext]="{ record: reportData.total, cell: cell }"
+      >
+      </ng-container>
+    </tr>
+  </tbody>
+</table>
+<ng-template #rowTemplate let-cell="cell" let-record="record">
+  <td [ngClass]="getCellClasses(cell)">{{ getCellData(record, cell) }}</td>
+</ng-template>

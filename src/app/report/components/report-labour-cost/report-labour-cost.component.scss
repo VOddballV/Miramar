@@ -1,0 +1,61 @@
+
+$primary-color: rgb(207, 207, 207);
+$font-awesome: 'Font Awesome\ 5 Free';
+
+@mixin sort-chevron-format($sort-descending) {
+	@if $sort-descending {
+		content: '\00a0\f078\00a0';
+	} @else {
+		content: '\00a0\f077\00a0';
+	}
+	color: red;
+	font-family: $font-awesome;	
+}
+
+.body {
+    font-family: 'Open Sans';
+}
+
+table {
+    border-spacing: 0;
+    width: 100%;
+}
+
+.spacer {
+    height: 30px;
+}
+
+.active {
+	//background-color: $primary-color;
+	&.descending {
+		&::after {
+			@include sort-chevron-format($sort-descending: true);	
+		}
+	}
+	&.ascending {
+		&::after {
+			@include sort-chevron-format($sort-descending: false);
+		}
+	}
+}
+
+.border {
+    border-right: 2px solid $primary-color;
+}
+
+tr > th {
+	cursor: pointer;
+    text-align: left;
+}
+
+.align {
+    text-align: right !important;
+}
+
+td, th {
+	padding: 10px 30px;
+}
+
+.large {
+    font-size: 22px;
+}
