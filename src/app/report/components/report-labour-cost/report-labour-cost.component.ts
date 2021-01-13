@@ -25,8 +25,8 @@ export class ReportLabourCostComponent implements OnInit {
 
   ngOnInit(): void {
     this.columns = this.reportLabourCostService.getColumns();
-    //  Created an observable so that we can use async
-    //  Another approuch would be to add the subscription to a Subscriptions object
+    //  Created an observable so that we can use async pipe
+    //  Another approach would be to add the subscription to a Subscriptions object
     //  Then unsubscribe with ngOnDestroy
     this.report$ = this.reportLabourCostService.getReportData().pipe(
       tap(
