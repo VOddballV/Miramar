@@ -15,7 +15,7 @@
   </thead>
   <tbody>
     <ng-container *ngIf="!columns[0].current; else sortedByName">
-      <tr *ngFor="let record of records">
+      <tr [@listAnimation]="records.length" *ngFor="let record of records">
         <ng-container 
           *ngFor="let cell of columns" 
           [ngTemplateOutlet]="rowTemplate"
@@ -26,7 +26,7 @@
     </ng-container>
 
     <ng-template #sortedByName>
-      <tr *ngFor="let record of reportData.directContractors">
+      <tr [@listAnimation]="reportData.directContractors.length" *ngFor="let record of reportData.directContractors">
         <ng-container 
           *ngFor="let cell of columns" 
           [ngTemplateOutlet]="rowTemplate"
@@ -37,7 +37,7 @@
   
       <tr class="spacer"></tr>
   
-      <tr *ngFor="let record of reportData.providers">
+      <tr [@listAnimation]="reportData.providers.length" *ngFor="let record of reportData.providers">
         <ng-container 
           *ngFor="let cell of columns" 
           [ngTemplateOutlet]="rowTemplate"
@@ -49,7 +49,7 @@
 
     <tr class="spacer"></tr>
 
-    <tr>
+    <tr [@listAnimation]="columns.length">
       <ng-container 
         *ngFor="let cell of columns" 
         [ngTemplateOutlet]="rowTemplate"

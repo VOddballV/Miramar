@@ -4,11 +4,13 @@ import { ReportLabourCostService } from '../../services/report-labour-cost.servi
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { PercentPipe, DecimalPipe } from '@angular/common';
+import { listAnimation } from '../../../animations/slide-in';
 
 @Component({
   selector: 'report-labour-cost',
   templateUrl: './report-labour-cost.component.html',
-  styleUrls: ['./report-labour-cost.component.scss']
+  styleUrls: ['./report-labour-cost.component.scss'],
+  animations: [listAnimation]
 })
 export class ReportLabourCostComponent implements OnInit {
 
