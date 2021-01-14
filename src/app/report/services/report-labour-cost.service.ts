@@ -66,7 +66,7 @@ export class ReportLabourCostService {
     return complianceStats && complianceStats.Contract ? complianceStats.Total : 0;
   }
 
-  //  Yeah backend isn't calculating the rebates total. Opsie.
+  //  Yeah backend isn't calculating the rebates total.
   getRebatesTotal = (workers: number, totalWorkers: number): number => {
     //  Multiple to whole number since that is what complianceScore is
     //  Maybe we don't want to use percent pipe in some places?
