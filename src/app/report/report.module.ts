@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule, PercentPipe, DecimalPipe } from '@angular/common';
 import { ReportLabourCostComponent } from './components';
+import { CurrencySymbolPipe } from './pipes/currency-symbol.pipe';
 
 
 
 @NgModule({
   declarations: [
-    ReportLabourCostComponent
+    ReportLabourCostComponent,
+    CurrencySymbolPipe
   ],
   imports: [
     CommonModule
@@ -16,7 +18,8 @@ import { ReportLabourCostComponent } from './components';
   ],
   providers: [
     PercentPipe,
-    DecimalPipe
+    DecimalPipe,
+    CurrencySymbolPipe
   ]
 })
 export class ReportModule { }

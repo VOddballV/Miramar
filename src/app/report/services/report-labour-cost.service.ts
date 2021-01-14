@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { map, switchMap } from 'rxjs/operators';
 import { Observable, of } from 'rxjs';
+import { CurrencySymbolPipe } from '../pipes/currency-symbol.pipe';
 
 
 @Injectable({
@@ -11,7 +12,10 @@ import { Observable, of } from 'rxjs';
 })
 export class ReportLabourCostService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private currencySymbol: CurrencySymbolPipe
+  ) { }
 
   getReportData = (): Observable<ReportResult> => {
     return this.http.get<IReportData[]>(`${environment.apiBaseUrl}/application/labourstats`).pipe(
@@ -50,9 +54,9 @@ export class ReportLabourCostService {
       { description: 'PAYROLL PROVIDER', key: ColumnKey.NAME},
       { description: 'WORKER', key: 'workerCount', large: true },
       { description: 'COMPLIANCE SCORE', key: ColumnKey.COMPLIANCE_SCORE, default: 0, isPercent: true, border: true },
-      { description: 'GROSS PAY (&pound;)', key: ColumnKey.GROSS_PAY_TOTAL, align: true, large: true },
-      { description: 'PAYROLL ADMIN (&pound;)', key: ColumnKey.PAYROLL_ADMIN_TOTAL, default: '-', align: true },
-      { description: 'LABOUR COST (&pound;)', key: ColumnKey.LABOUR_COST_TOTAL, border: true, align: true, large: true },
+      { description: `GROSS PAY (${this.currencySymbol.transform()})`, key: ColumnKey.GROSS_PAY_TOTAL, align: true, large: true },
+      { description: `PAYROLL ADMIN (${this.currencySymbol.transform()})`, key: ColumnKey.PAYROLL_ADMIN_TOTAL, default: '-', align: true },
+      { description: `LABOUR COST (${this.currencySymbol.transform()})`, key: ColumnKey.LABOUR_COST_TOTAL, border: true, align: true, large: true },
       { description: 'WORK FORCE', key: ColumnKey.REBATES_TOTAL, default: 0, isPercent: true },
     ];
   }

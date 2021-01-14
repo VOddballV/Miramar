@@ -53,8 +53,7 @@ export class ReportLabourCostComponent implements OnInit {
   sort = (index: number) => {
     //  Added for animations
     this.isLoading = true;
-    this.ref.detectChanges()
-  
+    this.ref.detectChanges();
     this.columns.forEach(col => col.current = false);
     this.columns[index].current = true;
 
