@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { ReportData, IColumn, IRecord, ReportResult, ColumnKey } from '../../models/report-labour-cost.model';
 import { ReportLabourCostService } from '../../services/report-labour-cost.service';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, finalize } from 'rxjs/operators';
 import { PercentPipe, DecimalPipe } from '@angular/common';
 import { listAnimation } from '../../../animations/slide-in';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'report-labour-cost',
@@ -17,12 +18,14 @@ export class ReportLabourCostComponent implements OnInit {
   reportData = {} as ReportData;
   records: IRecord[] = [];
   columns: IColumn[] = [];
+  isLoading: boolean = true;
   report$: Observable<ReportResult>;
 
   constructor(
     private reportLabourCostService: ReportLabourCostService,
     private percentPipe: PercentPipe,
-    private decimalPipe: DecimalPipe
+    private decimalPipe: DecimalPipe,
+    private ref: ChangeDetectorRef // Only added for animations to trigger change detection since isLoading was not seen
   ) { }
 
   ngOnInit(): void {
@@ -38,11 +41,20 @@ export class ReportLabourCostComponent implements OnInit {
           //  Default to descending Payroll Provider
           this.sort(this.columns.findIndex(x => x.key === ColumnKey.NAME));
         }
+      ),
+      finalize(
+        () => {
+          this.isLoading = false;
+        }
       )
     );
   }
 
   sort = (index: number) => {
+    //  Added for animations
+    this.isLoading = true;
+    this.ref.detectChanges()
+  
     this.columns.forEach(col => col.current = false);
     this.columns[index].current = true;
 
@@ -57,6 +69,8 @@ export class ReportLabourCostComponent implements OnInit {
       this.arrange(this.reportData.directContractors, property, desc);
       this.arrange(this.reportData.providers, property, desc);
     }
+    //  Added for animations
+    this.isLoading = false;
   }
 
   arrange = (arr: IRecord[], property: string, direction: boolean) => {
